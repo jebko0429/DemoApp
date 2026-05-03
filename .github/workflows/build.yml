@@ -16,15 +16,17 @@ jobs:
           distribution: 'temurin'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-      - name: Install Gradle 6.8.2
-        run: |
-          wget https://services.gradle.org/distributions/gradle-6.8.2-bin.zip
-          unzip gradle-6.8.2-bin.zip
-          export GRADLE_HOME=$PWD/gradle-6.8.2
-          export PATH=$GRADLE_HOME/bin:$PATH
-          gradle --version
+        with:
+          cmdline-tools-version: 12266719
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: true
+          packages: tools platform-tools
+      - name: Setup Gradle 7.0
+        uses: gradle/actions/setup-gradle@v2
+        with:
+          gradle-version: 7.0
       - name: Build Debug APK
-        run: gradle assembleDebug
+        run: ./gradlew assembleDebug --no-daemon
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
