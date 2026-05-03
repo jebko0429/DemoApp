@@ -22,10 +22,14 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install Gradle
+    - name: Install Gradle 8.5
       run: |
-        sudo apt-get update
-        sudo apt-get install -y gradle
+        GRADLE_VERSION=8.5
+        wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
+        unzip gradle-${GRADLE_VERSION}-bin.zip
+        export GRADLE_HOME=$PWD/gradle-${GRADLE_VERSION}
+        export PATH=$GRADLE_HOME/bin:$PATH
+        gradle --version
 
     - name: Build Debug APK
       run: gradle assembleDebug
