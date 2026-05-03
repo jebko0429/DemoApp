@@ -16,10 +16,13 @@ jobs:
           distribution: 'temurin'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-      - name: Install Gradle
+      - name: Install Gradle 6.8.2
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
+          wget https://services.gradle.org/distributions/gradle-6.8.2-bin.zip
+          unzip gradle-6.8.2-bin.zip
+          export GRADLE_HOME=$PWD/gradle-6.8.2
+          export PATH=$GRADLE_HOME/bin:$PATH
+          gradle --version
       - name: Build Debug APK
         run: gradle assembleDebug
       - name: Upload APK
